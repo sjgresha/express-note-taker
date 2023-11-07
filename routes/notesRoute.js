@@ -33,6 +33,7 @@ router.post('/notes', (req, res) => {
 
 });
 
+//not getting saved notes
 router.get('/', (req, res) => {
     const postedNotes = fs.readFileSync('./db/db.json');
     res.json(JSON.parse(postedNotes));
@@ -44,6 +45,8 @@ router.get('/', (req, res) => {
 //     const singleNote = allNotes.find((n))
 // })
 
+
+//need to finish/fix the delete route
 router.delete('/:id', (req, res) => {
     const { id } = req.params;
 
