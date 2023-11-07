@@ -1,8 +1,8 @@
 const router = require('express').Router();
 const fs = require('fs');
-const {v4: uuidv4} = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 
-router.post('/', (req, res) => {
+router.post('/notes', (req, res) => {
     const { title, text } = req.body;
 
     if (title && text) {
@@ -16,7 +16,7 @@ router.post('/', (req, res) => {
         postedNotes.push(newNote);
 
         fs.writeFile('./db/db.json', JSON.stringify(postedNotes, null, 2), (err) => {
-            if(err) throw(err);
+            if (err) throw (err);
             console.log('Note Saved!');
         });
 
@@ -26,9 +26,9 @@ router.post('/', (req, res) => {
         };
         console.log(response);
         res.status(201).json(response);
-    
+
     } else {
-      res.status(500).json('Error adding note');
+        res.status(500).json('Error adding note');
     }
 
 });
@@ -45,5 +45,15 @@ router.get('/', (req, res) => {
 // })
 
 router.delete('/:id', (req, res) => {
-    const postedNotes = fs.readFileSync('./db/db.json')
+    const { id } = req.params;
+
+    fs.readFile('./db/db.json', 'utf8', (err, data) => {
+        if (err) {
+            console.log(err);
+        } else {
+           const notes = JSON.parse(data)
+        }
+    });
+    
+    const deletedNotes = notes.filter(note => note.id != req.params.id)
 })
